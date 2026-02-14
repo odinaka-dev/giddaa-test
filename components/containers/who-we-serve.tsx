@@ -21,7 +21,7 @@ export default function WhoWeServeComponent() {
           badge="Who we Serve?"
           title="We are Experts for Every Tax Situation"
           className="text-[#001F3F] bg-white"
-          description="No matter your tax needs, file with confidence and get the most out of your return ."
+          description="No matter your tax needs, file with confidence and get the most out of your return ."
         />
         <VerticalScroll />
       </div>
@@ -32,7 +32,6 @@ export default function WhoWeServeComponent() {
 export function VerticalScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // More test
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -40,12 +39,25 @@ export function VerticalScroll() {
     const cards = gsap.utils.toArray<HTMLElement>(".card-container");
 
     cards.forEach((card, index) => {
+      const isLast = index === cards.length - 1;
+
       ScrollTrigger.create({
         trigger: card,
-        start: "top top",
-        end: "bottom top",
-        pin: index < 4 ? true : false,
+        start: "top top+=100",
+        end: isLast ? "bottom bottom" : "bottom top+=100",
+        pin: true,
         pinSpacing: false,
+        onUpdate: (self) => {
+          if (!isLast) {
+            const progress = self.progress;
+            gsap.to(card, {
+              scale: 1 - progress * 0.05,
+              y: progress * -20,
+              duration: 0.1,
+              ease: "none",
+            });
+          }
+        },
       });
     });
 
@@ -55,12 +67,15 @@ export function VerticalScroll() {
   }, []);
 
   return (
-    <div ref={containerRef} className="space-y-4 py-20">
+    <div ref={containerRef} className="relative">
       {CARDSTEPSDATA.map((card, index) => (
         <div
           key={index}
-          className={`card-container rounded-[50px] py-4 md:py-8 px-4 md:px-12 grid md:grid-cols-2 items-center w-full ${index >= 4 ? "relative z-100" : "z-0"}`}
-          style={{ color: card?.textColor, background: card?.color }}
+          className={`card-container rounded-[50px] py-4 md:py-8 px-4 md:px-12 grid md:grid-cols-2 items-center w-full mb-4`}
+          style={{
+            color: card?.textColor,
+            background: card?.color,
+          }}
         >
           <div className="w-full order-1 md:order-2">
             <Image

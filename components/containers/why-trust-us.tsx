@@ -15,10 +15,10 @@ export default function WhyTrustUsComponent() {
           description="Before the 2025 tax act, we filed 200 returns for 30 companies. We've added great software to help more businesses and individuals stay compliant and maximize their tax returns."
         />
       </div>
-      <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 my-16">
+      <div className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide pb-4 my-16">
         {WHYCARDDATA.map((items, index) => (
           <div
-            className="min-w-[80%] lg:min-w-253.25 rounded-[56px] grid md:grid-cols-2 overflow-hidden mx-2 sm:mx-8"
+            className="min-w-[85%] lg:min-w-253.25 rounded-[56px] grid md:grid-cols-2 overflow-hidden mx-2 sm:mx-8"
             style={{ backgroundColor: items?.color }}
             key={index}
           >

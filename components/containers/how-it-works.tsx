@@ -50,12 +50,25 @@ export function VerticalScroll() {
     const cards = gsap.utils.toArray<HTMLElement>(".step-card");
 
     cards.forEach((card, index) => {
+      const isLast = index === cards.length - 1;
+
       ScrollTrigger.create({
         trigger: card,
-        start: "top top",
-        end: "bottom top",
-        pin: index < 2 ? true : false,
+        start: "top top+=100",
+        end: isLast ? "bottom bottom" : "bottom top+=100",
+        pin: true,
         pinSpacing: false,
+        onUpdate: (self) => {
+          if (!isLast) {
+            const progress = self.progress;
+            gsap.to(card, {
+              scale: 1 - progress * 0.05,
+              y: progress * -20,
+              duration: 0.1,
+              ease: "none",
+            });
+          }
+        },
       });
     });
 
@@ -65,11 +78,11 @@ export function VerticalScroll() {
   }, []);
 
   return (
-    <div ref={containerRef} className="space-y-4">
+    <div ref={containerRef} className="relative">
       {STEPSDATA.map((step, index) => (
         <div
           key={index}
-          className={`step-card bg-white rounded-[50px] p-10 sm:w-110 ${index >= 2 ? "relative z-100" : "z-0"}`}
+          className={`step-card bg-white rounded-[50px] p-10 mb-4 sm:w-110 ${index >= 2 ? "relative z-100" : "z-0"}`}
           style={{ zIndex: index + 1 }}
         >
           <div className="space-y-6">
