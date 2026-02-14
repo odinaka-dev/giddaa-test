@@ -1,4 +1,13 @@
+/* google fonts set up */
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
+
+/* tailwind css setup */
 @import "tailwindcss";
+
+/* skeleton ui */
+@import "@skeletonlabs/skeleton";
+@import "@skeletonlabs/skeleton-react";
+@import "@skeletonlabs/skeleton/themes/cerberus";
 
 :root {
   --background: #ffffff;
@@ -6,21 +15,25 @@
 }
 
 @theme inline {
+  /* colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Figtree", sans-serif;
+}
+
+/* Add this to your globals.css */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IEe */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }
