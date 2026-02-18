@@ -4,270 +4,11 @@ import { Combobox } from "@headlessui/react";
 import { useFormik } from "formik";
 import { Check, ChevronDown } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface Industry {
-  id: string;
-  name: string;
-  extraProperties: {
-    RequiresIncomeTax: boolean;
-    HasExemptionPeriod: boolean;
-    ExemptionPeriodYears: number;
-  };
-}
-
-interface TaxConfig {
-  TaxRate: number;
-  TaxableAmountThreshold: number;
-}
-
-interface TaxResult {
-  taxPayable: number;
-  monthlyTax: number;
-  effectiveRate: number;
-  grossIncome: number;
-  taxableIncome: number;
-  netIncome: number;
-  isTaxFree: boolean;
-  taxFreeReason: string;
-}
-
-// ─── API Response Types ──────────────────────────────────────────────────────
-
-interface IndustryApiResponse {
-  statusCode: number;
-  message: string;
-  value: {
-    value: {
-      pageNumber: number;
-      pageSize: number;
-      totalPages: number;
-      totalRecords: number;
-      data: IndustryData[];
-    };
-  };
-}
-
-interface IndustryData {
-  id: string;
-  name: string;
-  optionTypeId: string;
-  extraProperty: string; // JSON string that needs to be parsed
-  optionType: null | string;
-  description: string;
-  identifier: null | string;
-  isRequired: boolean;
-  createdBy: string; // JSON string
-  dateCreated: string; // ISO date string
-}
-
-// ─── Parsed Types ────────────────────────────────────────────────────────────
-
-interface IndustryExtraProperties {
-  RequiresIncomeTax: boolean;
-  HasExemptionPeriod: boolean;
-  ExemptionPeriodYears: number;
-}
-
-interface Industry {
-  id: string;
-  name: string;
-  description: string;
-  extraProperties: IndustryExtraProperties;
-}
-
-// ─── Usage Example ───────────────────────────────────────────────────────────
-
-// When parsing the API response:
-// function parseIndustryResponse(response: IndustryApiResponse): Industry[] {
-//   return response?.value?.value?.data.map((item) => ({
-//     id: item.id,
-//     name: item.name,
-//     description: item.description,
-//     extraProperties: JSON.parse(item.extraProperty) as IndustryExtraProperties,
-//   }));
-// }
-
-function parseIndustryResponse(data: IndustryData[]): Industry[] {
-  return data.map((item) => ({
-    id: item.id,
-    name: item.name,
-    description: item.description,
-    extraProperties: item.extraProperty
-      ? JSON.parse(item.extraProperty)
-      : {
-          RequiresIncomeTax: false,
-          HasExemptionPeriod: false,
-          ExemptionPeriodYears: 0,
-        },
-  }));
-}
-
-function useTaxConfig() {
-  const [config, setConfig] = useState<TaxConfig | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchConfig() {
-      try {
-        const res = await fetch(
-          "https://api.taxoga.com/public/system-configuration/COMPANY_INCOME_TAX_CONFIGURATION",
-        );
-        if (!res.ok) throw new Error("Failed to fetch configuration");
-        const data = await res.json();
-
-        // Parse the Value field (it may be a JSON string)
-        const parsed =
-          typeof data.value === "string" ? JSON.parse(data.value) : data.value;
-
-        setConfig({
-          TaxRate: parsed.TaxRate || parsed.taxRate || 0.3,
-          TaxableAmountThreshold:
-            parsed.TaxableAmountThreshold ||
-            parsed.taxableAmountThreshold ||
-            25000000,
-        });
-      } catch (err) {
-        setError("Could not load tax configuration.");
-        // Fallback values for development
-        setConfig({ TaxRate: 0.3, TaxableAmountThreshold: 25000000 });
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchConfig();
-  }, []);
-
-  return { config, loading, error };
-}
-
-function useIndustries() {
-  const [industries, setIndustries] = useState<Industry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchIndustries() {
-      try {
-        const res = await fetch(
-          `https://api.taxoga.com/public/option-type/TAX_INDUSTRIES/options?pageNumber=1&pageSize=500`,
-        );
-        if (!res.ok) throw new Error("Failed to fetch industries");
-
-        const response: IndustryApiResponse = await res.json();
-        console.log(response?.value?.value?.data);
-
-        setIndustries(parseIndustryResponse(response?.value?.value?.data));
-      } catch (err) {
-        setError("Could not load industries.");
-        console.error("Industries fetch error:", err);
-        // Fallback data...
-        setIndustries([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchIndustries();
-  }, []);
-
-  return { industries, loading, error };
-}
-
-function calculateTax(params: {
-  industry: Industry | null;
-  madeProfit: boolean;
-  revenueAboveThreshold: boolean;
-  yearOfIncorporation: number;
-  totalNetProfit: number;
-  config: TaxConfig;
-}): TaxResult {
-  const {
-    industry,
-    madeProfit,
-    revenueAboveThreshold,
-    yearOfIncorporation,
-    totalNetProfit,
-    config,
-  } = params;
-
-  const currentYear = new Date().getFullYear();
-  const yearsSinceIncorporation = currentYear - yearOfIncorporation;
-
-  const requiresIncomeTax =
-    industry?.extraProperties?.RequiresIncomeTax ?? false;
-  const hasExemptionPeriod =
-    industry?.extraProperties?.HasExemptionPeriod ?? false;
-  const exemptionYears = industry?.extraProperties?.ExemptionPeriodYears ?? 0;
-
-  // Exemption still applies if years since incorporation <= exemption period
-  const exemptionStillApplies =
-    hasExemptionPeriod && yearsSinceIncorporation <= exemptionYears;
-
-  // Determine tax-free reason
-  let isTaxFree = false;
-  let taxFreeReason = "";
-
-  if (!requiresIncomeTax) {
-    isTaxFree = true;
-    taxFreeReason = "You are in a tax-free industry";
-  } else if (exemptionStillApplies) {
-    isTaxFree = true;
-    taxFreeReason = `Exemption period active (${exemptionYears - yearsSinceIncorporation} year(s) remaining)`;
-  } else if (!madeProfit) {
-    isTaxFree = true;
-    taxFreeReason = "No profit made — no tax liability";
-  } else if (!revenueAboveThreshold) {
-    isTaxFree = true;
-    taxFreeReason = "Revenue below taxable threshold";
-  }
-
-  const shouldCalculateTax =
-    requiresIncomeTax &&
-    madeProfit &&
-    revenueAboveThreshold &&
-    !exemptionStillApplies;
-
-  const taxPayable = shouldCalculateTax ? config.TaxRate * totalNetProfit : 0;
-
-  const grossIncome = totalNetProfit;
-  const taxableIncome = shouldCalculateTax ? totalNetProfit : 0;
-  const netIncome = grossIncome - taxPayable;
-  const monthlyTax = taxPayable / 12;
-  const effectiveRate = grossIncome > 0 ? (taxPayable / grossIncome) * 100 : 0;
-
-  return {
-    taxPayable,
-    monthlyTax,
-    effectiveRate,
-    grossIncome,
-    taxableIncome,
-    netIncome,
-    isTaxFree,
-    taxFreeReason,
-  };
-}
-
-// ─── Formatters ───────────────────────────────────────────────────────────────
-
-function formatNaira(value: number | undefined | null): string {
-  if (value === undefined || value === null || isNaN(value)) {
-    return "₦0";
-  }
-  return `₦${value.toLocaleString("en-NG", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })}`;
-}
-
-function parseAmount(value: string | undefined | null): number {
-  if (!value || value === "") return 0;
-  const parsed = parseFloat(value.replace(/[^0-9.]/g, ""));
-  return isNaN(parsed) ? 0 : parsed;
-}
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
+import { TaxResult } from "@/types/tax.types";
+import { useTaxConfig } from "@/hooks/useTaxConfig";
+import { useIndustries } from "@/hooks/useIndustries";
+import { formatNaira, parseAmount } from "@/libs/utils";
+import { calculateTax } from "@/libs/utils";
 
 function LoadingSpinner() {
   return (
@@ -326,7 +67,6 @@ export default function CompanyTaxCalculator() {
     setHasCalculated(false);
   };
 
-  const isLoading = configLoading || industriesLoading;
   const taxRatePercent = config ? (config.TaxRate * 100).toFixed(0) : "30";
   const threshold = config?.TaxableAmountThreshold;
 
@@ -351,6 +91,18 @@ export default function CompanyTaxCalculator() {
     (ind) => ind.id === formik.values.industryId,
   );
 
+  useEffect(() => {
+    if (formik.isValid && formik.dirty) {
+      formik.handleSubmit();
+    }
+  }, [
+    formik.values.industryId,
+    formik.values.madeProfit,
+    formik.values.totalSales,
+    formik.values.yearOfIncorporation,
+    formik.values.totalNetProfit,
+  ]);
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6">
@@ -363,31 +115,6 @@ export default function CompanyTaxCalculator() {
             </p>
 
             <form onSubmit={formik.handleSubmit} className="space-y-6">
-              {/* Industry */}
-              {/* <div>
-                <label className="block text-sm font-medium mb-2">
-                  Industry
-                </label>
-                {industriesLoading ? (
-                  <LoadingSpinner />
-                ) : (
-                  <select
-                    name="industryId"
-                    value={formik.values.industryId}
-                    onChange={formik.handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white"
-                  >
-                    <option value="">Select an industry</option>
-                    {industries.map((ind) => (
-                      <option key={ind.id} value={ind.id}>
-                        {ind.name}
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </div> */}
-
               {/* Industry */}
               <div>
                 <label className="block text-sm font-medium mb-2">
@@ -436,7 +163,7 @@ export default function CompanyTaxCalculator() {
                                 }`
                               }
                             >
-                              {({ selected, active }) => (
+                              {({ selected }) => (
                                 <>
                                   <span
                                     className={`block truncate ${
@@ -559,19 +286,19 @@ export default function CompanyTaxCalculator() {
           </div>
 
           <div className="mt-8">
-            <div className="grid grid-cols-2 gap-3">
-              <button
+            <div className="w-full">
+              {/* <button
                 type="submit"
                 onClick={() => formik.handleSubmit()}
                 disabled={isLoading}
                 className="py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Calculate Tax
-              </button>
+              </button> */}
               <button
                 type="button"
                 onClick={handleReset}
-                className="py-3 bg-white border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition"
+                className="w-full py-3 bg-white border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition"
               >
                 Reset All
               </button>

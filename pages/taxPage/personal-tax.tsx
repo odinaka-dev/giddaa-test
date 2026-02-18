@@ -4,21 +4,8 @@ import { useFormik } from "formik";
 import { Calculator } from "lucide-react";
 import { useState, useMemo } from "react";
 import { ApiResponse, TaxCalculationResponse } from "@/types/tax.types"; // types imports
-
-function parseAmount(value: string): number {
-  if (!value || value === "OPTIONAL") return 0;
-  return parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
-}
-
-function formatNaira(value: number | undefined | null): string {
-  if (value === undefined || value === null || isNaN(value)) {
-    return "₦0";
-  }
-  return `₦${value.toLocaleString("en-NG", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })}`;
-}
+import { baseURL } from "@/config";
+import { formatNaira, parseAmount } from "@/libs/utils";
 
 export default function PersonalTaxCalculator() {
   const [taxResult, setTaxResult] = useState<TaxCalculationResponse | null>(
@@ -66,16 +53,13 @@ export default function PersonalTaxCalculator() {
       };
 
       try {
-        const response = await fetch(
-          "https://api.taxoga.com/public/tax/paye/calculator",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
+        const response = await fetch(`${baseURL}/tax/paye/calculator`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify(payload),
+        });
 
         if (!response.ok) {
           throw new Error("Failed to calculate tax");
@@ -83,7 +67,7 @@ export default function PersonalTaxCalculator() {
 
         const data: { value: ApiResponse } = await response.json();
 
-        // Extract the actual data from nested structure
+        // Extract the actual data
         const apiData = data.value.value;
 
         // Calculate totals from the bracket data
@@ -98,7 +82,6 @@ export default function PersonalTaxCalculator() {
         const grossIncome = totalIncome;
         const totalDeductionsValue = totalDeductions;
 
-        // Transform to our expected structure
         const transformedResult: TaxCalculationResponse = {
           taxPayable: totalTaxPaid,
           monthlyTax: totalTaxPaid / 12,
@@ -127,7 +110,7 @@ export default function PersonalTaxCalculator() {
     },
   });
 
-  // Calculate totals in real-time for display
+  // Calculate totals
   const totalIncome = useMemo(() => {
     return (
       parseAmount(formik.values.employmentIncome) +
@@ -172,7 +155,6 @@ export default function PersonalTaxCalculator() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6">
-        {/* Left Panel - Income Sources & Deductions */}
         <div className="space-y-6">
           {/* Income Sources Card */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
@@ -385,33 +367,33 @@ export default function PersonalTaxCalculator() {
             )}
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-[60%_40%] gap-3 mt-6">
-              <button
-                type="submit"
-                onClick={() => formik.handleSubmit()}
-                disabled={isCalculating || totalIncome === 0}
-                className="py-3 bg-[#2C59C3] text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isCalculating ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Calculating...
-                  </>
-                ) : (
-                  <>
-                    <Calculator className="w-4 h-4" />
-                    Calculate Tax
-                  </>
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="py-3 border border-gray-300 text-sm font-medium rounded-lg hover:bg-gray-50 transition"
-              >
-                Reset All
-              </button>
-            </div>
+          </div>
+          <div className="grid grid-cols-[60%_40%] gap-3 mt-6">
+            <button
+              type="submit"
+              onClick={() => formik.handleSubmit()}
+              disabled={isCalculating || totalIncome === 0}
+              className="py-3 bg-[#2C59C3] text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isCalculating ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Calculating...
+                </>
+              ) : (
+                <>
+                  <Calculator className="w-4 h-4" />
+                  Calculate Tax
+                </>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="py-3 border border-gray-300 text-sm font-medium rounded-lg hover:bg-gray-50 transition"
+            >
+              Reset All
+            </button>
           </div>
         </div>
 
@@ -464,8 +446,6 @@ export default function PersonalTaxCalculator() {
                   const totalTax = taxResult.taxPayable;
                   const percentage =
                     totalTax > 0 ? (bracket.taxPaid / totalTax) * 100 : 0;
-
-                  // if (bracket.taxPaid === 0) return null;
 
                   return (
                     <div key={index}>

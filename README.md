@@ -1,36 +1,477 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tax Calculator - Nigeria Tax System
 
-## Getting Started
+A comprehensive tax calculation platform for Personal Income Tax (PAYE) and Company Income Tax built with Next.js, TypeScript, and modern UI components.
 
-First, run the development server:
+---
+
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Components Overview](#components-overview)
+- [Running the Application](#running-the-application)
+- [Environment Variables](#environment-variables)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+## Main Features
+
+### Personal Income Tax Calculator
+
+- Multi-source income calculation (Employment, Business, Rental, Investment, Other)
+- Allowable deductions (Rent, Pension, NHF, Life Insurance, NHIS, Gratuity)
+- Progressive tax bracket breakdown with visual indicators
+- Real-time income and deduction totals
+- Annual and monthly tax liability display
+- Effective tax rate calculation
+- Income summary with net income
+
+### Company Income Tax Calculator
+
+- Industry-specific tax rules and exemptions
+- Revenue threshold-based taxation
+- Profit-based tax calculation
+- Exemption period tracking for eligible industries
+- Tax-free industry identification
+- Dynamic tax rate configuration from API
+- Searchable industry dropdown with 58+ industries
+
+---
+
+## Tech Stack
+
+- **Framework**: Next.js 16+ (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, CSS
+- **UI Components**:
+  - Headless UI (Combobox)
+  - GSAP
+  - React Marque
+  - Skeleton UI
+- **Form Management**: Formik
+- **HTTP Client**: Native Fetch API
+- **Icons**: Lucide React, IconSax
+- **State Management**: React Hooks (useState, useEffect, useMemo)
+
+---
+
+## Prerequisites
+
+- **Node.js**: 22.0.0 or higher
+- **npm**: 9.0.0 or higher (or **yarn**: 1.22.0+)
+- **Git**: For version control
+
+---
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/odinaka-dev/giddaa-test.git
+cd giddaa-test
+```
+
+### 2. Install dependencies
+
+Using npm:
+
+```bash
+npm install
+```
+
+Using yarn:
+
+```bash
+yarn install
+```
+
+### 3. Install required packages
+
+If packages are not in `package.json`, install them manually:
+
+```bash
+# Core dependencies
+npm install next react react-dom typescript
+
+# UI & Styling
+npm install tailwindcss postcss autoprefixer
+npm install @headlessui/react lucide-react
+npm install react-fast-marquee
+npm i -D @skeletonlabs/skeleton @skeletonlabs/skeleton-react
+
+# import in your global.css to run skeleton ui
+@import '@skeletonlabs/skeleton';
+@import '@skeletonlabs/skeleton-react';
+@import '@skeletonlabs/skeleton/themes/cerberus';
+
+
+# Form Management
+npm install formik
+
+# TypeScript types
+npm install -D @types/node @types/react @types/react-dom
+```
+
+Or with yarn:
+
+```bash
+yarn add next react react-dom typescript
+yarn add tailwindcss postcss autoprefixer
+yarn add @headlessui/react lucide-react formik
+yarn add -D @types/node @types/react @types/react-dom
+yarn add react-fast-marquee
+```
+
+### 4. Initialize Tailwind CSS (if not already configured)
+
+## tailwind v4 is already configured in the global.css
+
+## Project Structure
+
+|**app
+| |\_**(website)
+| | |\_
+| |***global.css
+| |***layout.tsx
+|***asset
+| |***icons
+| |***images
+|***components
+|***containers - # here lies the various homepage contaiiners and the layout components (Header and footer)
+|***layouts
+|**\_config
+| |**index.tsx #imports of env baseURL
+|***constants
+| |***image.ts # static image data image imports
+|**\_exports
+| |**exports.tsx # imports of client components for server rendering
+|**\_helpers
+| |**homepage.helpers.ts
+| |**tax.helpers.ts
+|\_**hooks
+| |**useIndustries.tsx
+| |**useTaxConfig.tsx  
+|**\_libs
+| |**utils.ts
+|***node_modules
+|***pages
+| |**homepage
+| |**taxPage
+|**\_provider
+| |**root-provider.tsx
+|***public
+|***types # typescript types for API payloads
+| |**tax.types.ts
+|\_**.env
+|**_.gitignore
+|_**.eslint.config.mjs
+|***next-env.d.ts
+|***next.config.ts
+|***package-lock.json
+|***package.json
+|***postcss.config.mjs
+|***README.md
+|\_\_\_tsconfig.json
+
+```
+
+```
+
+---
+
+## API Documentation
+
+### Base URL
+
+```
+https://api.taxoga.com/public
+```
+
+### Endpoints
+
+#### 1. Personal Income Tax Calculator
+
+```
+POST /tax/paye/calculator
+```
+
+**Request Body:**
+
+```json
+{
+  "income": {
+    "salaryIncome": 50000000,
+    "businessIncome": 0,
+    "rentalIncome": 0,
+    "investmentIncome": 0,
+    "otherIncome": 0
+  },
+  "deductions": {
+    "rent": 0,
+    "pensionContribution": 0,
+    "nhfContribution": 0,
+    "lifeInsurance": 0,
+    "nhisPremium": 0,
+    "gratitude": 0
+  }
+}
+```
+
+**Response:**
+
+```json
+{
+  "statusCode": 200,
+  "message": "Operation succeeded.",
+  "value": [
+    {
+      "band": "₦1 – ₦800,000",
+      "rate": 7.0,
+      "taxableAmount": 800000,
+      "taxPaid": 56000.0
+    }
+  ]
+}
+```
+
+#### 2. Company Tax Configuration
+
+```
+GET /system-configuration/COMPANY_INCOME_TAX_CONFIGURATION
+```
+
+**Response:**
+
+```json
+{
+  "value": {
+    "TaxRate": 0.3,
+    "TaxableAmountThreshold": 25000000
+  }
+}
+```
+
+#### 3. Tax Industries
+
+```
+GET /option-type/TAX_INDUSTRIES/options?pageNumber=1&pageSize=500
+```
+
+**Response:**
+
+```json
+{
+  "statusCode": 200,
+  "value": {
+    "data": [
+      {
+        "id": "AGRICULTURE",
+        "name": "Agriculture (Farming & Primary Production)",
+        "extraProperty": "{\"RequiresIncomeTax\":true,\"HasExemptionPeriod\":true,\"ExemptionPeriodYears\":5}",
+        "description": "Agricultural business"
+      }
+    ]
+  }
+}
+```
+
+#### 3. Find .env secrets in the action tab on githun
+
+- open chrometab and head over to:
+  https://github.com/odinaka-dev/giddaa-test.git
+
+- Head to settings
+- Select Environment
+- check the production for secret env key - Production
+- To be used in codebase
+
+---
+
+## Components Overview
+
+### PersonalTaxCalculator.tsx
+
+**Location**: `components/tax-calculators/PersonalTaxCalculator.tsx`
+
+**Features**:
+
+- Income sources form (5 fields)
+- Deductions form (6 fields)
+- Real-time total calculation
+- API integration with PAYE calculator
+- Progressive tax bracket visualization
+- Income summary display
+
+**Key Props**: None (standalone component)
+
+**State Management**:
+
+```typescript
+- taxResult: TaxCalculationResponse | null
+- isCalculating: boolean
+- hasCalculated: boolean
+- error: string | null
+```
+
+---
+
+### CompanyTaxCalculator.tsx
+
+**Location**: `components/tax-calculators/CompanyTaxCalculator.tsx`
+
+**Features**:
+
+- Searchable industry dropdown (58 different options)
+- Dynamic revenue threshold from API
+- Profit status selection
+- Year of incorporation tracking
+- Exemption period calculation
+- Tax-free vs taxable determination
+
+**Key Logic**:
+
+```typescript
+// Tax is calculated only when ALL conditions are true:
+1. RequiresIncomeTax = true
+2. Company made a profit
+3. Revenue > TaxableAmountThreshold
+4. Exemption period has expired
+```
+
+**State Management**:
+
+```typescript
+- config: TaxConfig | null
+- industries: Industry[]
+- result: TaxResult | null
+- hasCalculated: boolean
+```
+
+---
+
+## Running the Application
+
+### Development Mode
+
+Using npm:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Using yarn:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application will start on `http://localhost:3000`
 
-## Learn More
+### Production Build
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Build the application
+npm run build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start production server
+npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Linting
 
-## Deploy on Vercel
+```bash
+npm run lint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# API Configuration
+NEXT_PUBLIC_URI=check github actions for env URI
+# NEXT_PUBLIC_API_KEY=no api key for this project
+```
+
+**Usage in code:**
+
+```typescript - in config/index.ts file
+const baseURL = process.env.NEXT_PUBLIC_URI;
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### 1. Module not found errors
+
+```bash
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+#### 2. TypeScript errors
+
+```bash
+# Check TypeScript configuration
+npx tsc --noEmit
+```
+
+#### 3. Formik validation issues
+
+- check personal-tax component and company tax component
+
+#### 4. Industry dropdown not loading
+
+- Check API response structure matches types
+- Verify `extraProperty` is being parsed correctly
+- Check browser console for errors
+
+#### 5. Tax calculation returning ₦0
+
+- Verify all form fields are filled
+- Check API response format
+- Ensure `parseAmount()` function handles currency correctly
+
+---
+
+## 📚 Key Functions Reference
+
+### Formatters (`lib/utils/formatters.ts`)
+
+```typescript
+// Format number to Nigerian Naira
+formatNaira(50000); // "₦50,000"
+
+// Parse amount from string
+parseAmount("₦50,000"); // 50000
+parseAmount("OPTIONAL"); // 0
+```
+
+### Calculations (`lib/utils/calculations.ts`)
+
+```typescript
+// Calculate company tax
+calculateTax({
+  industry: selectedIndustry,
+  madeProfit: true,
+  revenueAboveThreshold: true,
+  yearOfIncorporation: 2016,
+  totalNetProfit: 75000000,
+  config: { TaxRate: 0.3, TaxableAmountThreshold: 25000000 },
+});
+```
+
+**Last Updated**: February 2026
+**Version**: 1.0.0

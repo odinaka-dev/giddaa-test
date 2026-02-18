@@ -17,7 +17,7 @@ const HEADERDTA = [
   },
   {
     linkName: "Tax Calculator",
-    link: "/",
+    link: "/calculator",
     linkIcon: null,
   },
   {
@@ -79,18 +79,20 @@ export default function HeaderComponent() {
         <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
           <div>
-            <Image
-              src={GiddaaImages?.TaxLogo}
-              alt="header_logo"
-              width={120}
-              height={40}
-              priority
-              quality={90}
-              placeholder="blur"
-              blurDataURL="data:image/svg+xml;base64,..."
-              sizes="(max-width: 768px) 100vw, 120px"
-              className="object-contain"
-            />
+            <Link href={"/"}>
+              <Image
+                src={GiddaaImages?.TaxLogo}
+                alt="header_logo"
+                width={120}
+                height={40}
+                priority
+                quality={90}
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,..."
+                sizes="(max-width: 768px) 100vw, 120px"
+                className="object-contain"
+              />
+            </Link>
           </div>
 
           {/* Desktop Navigation - Hidden on mobile */}

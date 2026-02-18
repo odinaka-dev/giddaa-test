@@ -17,27 +17,43 @@ export default function TaxComponent() {
 
 export function TaxCalculatorHeading() {
   return (
-    <div className="w-full flex flex-col items-center justify-center max-w-[90%] lg:max-w-[1000px] xl:max-w-[1200px] mx-auto">
+    <div className="w-full flex flex-col items-center justify-center max-w-[96%] lg:max-w-[1000px] xl:max-w-[1200px] mx-auto">
       <div className="text-center">
         <h1 className="text-[#001F3F] font-bold text-[32px] md:text-[40px] capitalize">
           Tax Calculator
         </h1>
-        <p className="text-[#4B4B4B] text-[16px] sm:text-[16x] md:text-[20px] leading-8 my-3">
+        <p className="text-[#4B4B4B] text-[16px] sm:text-[16x] md:text-[20px] leading-8 my-3 px-4 sm:px-0">
           Calculate your tax liability under Nigeria&apos;s Tax Act 2025
         </p>
       </div>
       <Tabs defaultValue="company-tax">
-        <div className="max-w-100 mx-auto">
+        <div className="max-w-100 mx-auto text-[14px]">
           <Tabs.List className="bg-[#ECECF0] p-1 rounded-full border-none grid grid-cols-2 w-full">
             <Tabs.Trigger
               value="personal-tax"
-              className="hover:bg-white data-[state=active]:bg-white data-[state=active]:shadow-sm text-[#0a0a0a] rounded-full p-2 cursor-pointer transition-all duration-200"
+              className="
+      hover:bg-white 
+      active:bg-white
+      aria-selected:bg-white 
+      aria-selected:shadow-sm 
+      !aria-selected:bg-transparent
+      text-[#0a0a0a] rounded-full p-2 cursor-pointer transition-all duration-200
+      focus:outline-none focus:ring-0
+    "
             >
               Personal Income Tax
             </Tabs.Trigger>
             <Tabs.Trigger
               value="company-tax"
-              className="hover:bg-white data-[state=active]:bg-white data-[state=active]:shadow-sm text-[#0a0a0a] rounded-full p-2 cursor-pointer transition-all duration-200"
+              className="
+      hover:bg-white 
+      active:bg-white
+      aria-selected:bg-white 
+      aria-selected:shadow-sm 
+      !aria-selected:bg-transparent
+      text-[#0a0a0a] rounded-full p-2 cursor-pointer transition-all duration-200
+      focus:outline-none focus:ring-0
+    "
             >
               Company Income Tax
             </Tabs.Trigger>
