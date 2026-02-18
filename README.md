@@ -134,50 +134,69 @@ yarn add react-fast-marquee
 
 ## Project Structure
 
-|**app
-| |\_**(website)
-| | |\_
-| |***global.css
-| |***layout.tsx
-|***asset
-| |***icons
-| |***images
-|***components
-|***containers - # here lies the various homepage contaiiners and the layout components (Header and footer)
-|***layouts
-|**\_config
-| |**index.tsx #imports of env baseURL
-|***constants
-| |***image.ts # static image data image imports
-|**\_exports
-| |**exports.tsx # imports of client components for server rendering
-|**\_helpers
-| |**homepage.helpers.ts
-| |**tax.helpers.ts
-|\_**hooks
-| |**useIndustries.tsx
-| |**useTaxConfig.tsx  
-|**\_libs
-| |**utils.ts
-|***node_modules
-|***pages
-| |**homepage
-| |**taxPage
-|**\_provider
-| |**root-provider.tsx
-|***public
-|***types # typescript types for API payloads
-| |**tax.types.ts
-|\_**.env
-|**_.gitignore
-|_**.eslint.config.mjs
-|***next-env.d.ts
-|***next.config.ts
-|***package-lock.json
-|***package.json
-|***postcss.config.mjs
-|***README.md
-|\_\_\_tsconfig.json
+tax-calculator/
+├── app/
+│ ├── (website)/
+│ │ ├── homepage/
+│ │ │ └── page.tsx # Home page
+│ │ ├── taxPage/
+│ │ │ ├── personal-tax/
+│ │ │ │ └── page.tsx # Personal tax calculator page
+│ │ │ └── company-tax/
+│ │ │ └── page.tsx # Company tax calculator page
+│ │ ├── layout.tsx # Root layout
+│ │ └── global.css # Global styles
+├── assets/
+│ ├── icons/ # Icon files
+│ └── images/ # Image assets
+├── components/
+│ ├── tax-calculators/
+│ │ ├── PersonalTaxCalculator.tsx # Personal tax component
+│ │ ├── CompanyTaxCalculator.tsx # Company tax component
+│ │ └── shared/
+│ │ ├── LoadingSpinner.tsx # Reusable spinner
+│ │ ├── ProgressBar.tsx # Tax bracket progress bar
+│ │ └── SummaryRow.tsx # Income summary row
+│ └── ui/
+│ ├── Button.tsx # Button component
+│ ├── Input.tsx # Input component
+│ └── Select.tsx # Select/Combobox component
+├── containers/
+│ ├── homepage/ # Homepage section containers
+│ └── layouts/
+│ ├── Header.tsx # Site header
+│ └── Footer.tsx # Site footer
+├── \_config/
+│ └── index.tsx # Environment config & base URLs
+├── \_constants/
+│ └── image.ts # Static image data imports
+├── \_exports/
+│ └── exports.tsx # Client component exports for server
+├── \_helpers/
+│ ├── homepage.helpers.ts # Homepage utility functions
+│ └── tax.helpers.ts # Tax calculation helpers
+├── \_hooks/
+│ ├── useIndustries.tsx # Industries data hook
+│ ├── useTaxConfig.tsx # Tax configuration hook
+│ └── usePersonalTax.tsx # Personal tax calculation hook
+├── \_libs/
+│ └── utils.ts # General utility functions
+├── \_provider/
+│ └── root-provider.tsx # Root context provider
+├── types/
+│ └── tax.types.ts # TypeScript types for API payloads
+├── public/ # Static assets
+├── .env # Environment variables
+├── .env.local # Local environment variables
+├── .gitignore
+├── .eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.md
+└── tsconfig.json
 
 ```
 
