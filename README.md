@@ -134,60 +134,63 @@ yarn add react-fast-marquee
 
 ## Project Structure
 
+## 📁 Project Structure
+
+```
 tax-calculator/
 ├── app/
-│ ├── (website)/
-│ │ ├── homepage/
-│ │ │ └── page.tsx # Home page
-│ │ ├── taxPage/
-│ │ │ ├── personal-tax/
-│ │ │ │ └── page.tsx # Personal tax calculator page
-│ │ │ └── company-tax/
-│ │ │ └── page.tsx # Company tax calculator page
-│ │ ├── layout.tsx # Root layout
-│ │ └── global.css # Global styles
+│   ├── (website)/
+│   │   ├── homepage/
+│   │   │   └── page.tsx                 # Home page
+│   │   ├── taxPage/
+│   │   │   ├── personal-tax/
+│   │   │   │   └── page.tsx             # Personal tax calculator page
+│   │   │   └── company-tax/
+│   │   │       └── page.tsx             # Company tax calculator page
+│   │   ├── layout.tsx                   # Root layout
+│   │   └── global.css                   # Global styles
 ├── assets/
-│ ├── icons/ # Icon files
-│ └── images/ # Image assets
+│   ├── icons/                           # Icon files
+│   └── images/                          # Image assets
 ├── components/
-│ ├── tax-calculators/
-│ │ ├── PersonalTaxCalculator.tsx # Personal tax component
-│ │ ├── CompanyTaxCalculator.tsx # Company tax component
-│ │ └── shared/
-│ │ ├── LoadingSpinner.tsx # Reusable spinner
-│ │ ├── ProgressBar.tsx # Tax bracket progress bar
-│ │ └── SummaryRow.tsx # Income summary row
-│ └── ui/
-│ ├── Button.tsx # Button component
-│ ├── Input.tsx # Input component
-│ └── Select.tsx # Select/Combobox component
+│   ├── tax-calculators/
+│   │   ├── PersonalTaxCalculator.tsx    # Personal tax component
+│   │   ├── CompanyTaxCalculator.tsx     # Company tax component
+│   │   └── shared/
+│   │       ├── LoadingSpinner.tsx       # Reusable spinner
+│   │       ├── ProgressBar.tsx          # Tax bracket progress bar
+│   │       └── SummaryRow.tsx           # Income summary row
+│   └── ui/
+│       ├── Button.tsx                   # Button component
+│       ├── Input.tsx                    # Input component
+│       └── Select.tsx                   # Select/Combobox component
 ├── containers/
-│ ├── homepage/ # Homepage section containers
-│ └── layouts/
-│ ├── Header.tsx # Site header
-│ └── Footer.tsx # Site footer
-├── \_config/
-│ └── index.tsx # Environment config & base URLs
-├── \_constants/
-│ └── image.ts # Static image data imports
-├── \_exports/
-│ └── exports.tsx # Client component exports for server
-├── \_helpers/
-│ ├── homepage.helpers.ts # Homepage utility functions
-│ └── tax.helpers.ts # Tax calculation helpers
-├── \_hooks/
-│ ├── useIndustries.tsx # Industries data hook
-│ ├── useTaxConfig.tsx # Tax configuration hook
-│ └── usePersonalTax.tsx # Personal tax calculation hook
-├── \_libs/
-│ └── utils.ts # General utility functions
-├── \_provider/
-│ └── root-provider.tsx # Root context provider
+│   ├── homepage/                        # Homepage section containers
+│   └── layouts/
+│       ├── Header.tsx                   # Site header
+│       └── Footer.tsx                   # Site footer
+├── _config/
+│   └── index.tsx                        # Environment config & base URLs
+├── _constants/
+│   └── image.ts                         # Static image data imports
+├── _exports/
+│   └── exports.tsx                      # Client component exports for server
+├── _helpers/
+│   ├── homepage.helpers.ts              # Homepage utility functions
+│   └── tax.helpers.ts                   # Tax calculation helpers
+├── _hooks/
+│   ├── useIndustries.tsx                # Industries data hook
+│   ├── useTaxConfig.tsx                 # Tax configuration hook
+│   └── usePersonalTax.tsx               # Personal tax calculation hook
+├── _libs/
+│   └── utils.ts                         # General utility functions
+├── _provider/
+│   └── root-provider.tsx                # Root context provider
 ├── types/
-│ └── tax.types.ts # TypeScript types for API payloads
-├── public/ # Static assets
-├── .env # Environment variables
-├── .env.local # Local environment variables
+│   └── tax.types.ts                     # TypeScript types for API payloads
+├── public/                              # Static assets
+├── .env                                 # Environment variables
+├── .env.local                           # Local environment variables
 ├── .gitignore
 ├── .eslint.config.mjs
 ├── next-env.d.ts
@@ -197,9 +200,6 @@ tax-calculator/
 ├── postcss.config.mjs
 ├── README.md
 └── tsconfig.json
-
-```
-
 ```
 
 ---
