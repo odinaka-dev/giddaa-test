@@ -10,7 +10,7 @@ import { TESTIMONIALS } from "@/helpers/homepage.helpers";
 export default function TestimonialsSection() {
   return (
     <div className="bg-[#F2F2F2] py-20">
-      <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto">
+      <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto">
         <SectionHeading
           badge="  Why Trust Us?"
           title="Hear From Customer's We Serve."

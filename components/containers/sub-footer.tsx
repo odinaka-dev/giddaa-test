@@ -7,9 +7,9 @@ import ButtonComponent from "./button";
 
 export default function SubFooterComponent() {
   return (
-    <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto mb-25">
+    <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto mb-25">
       <div className="bg-[#F1F5FF] rounded-[30px] p-6 sm:p-12 ">
-        <div className="grid grid-cols-1 gap-8 sm:gap-0 sm:flex sm:flex-row justify-between items-center w-full">
+        <div className="grid grid-cols-1 gap-8 sm:gap-0 lg:flex lg:flex-row justify-between items-center w-full">
           <div className="">
             <h1 className="text-[#001F3F] font-bold text-[32px] md:text-[40px] capitalize">
               Get Started

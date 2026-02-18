@@ -16,7 +16,7 @@ export default function HowItWorksComponent() {
 
   return (
     <div ref={sectionRef} className="py-20 bg-[#F2F2F2]">
-      <div className="grid lg:grid-cols-2 gap-24 max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto">
+      <div className="grid lg:grid-cols-2 gap-24 max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto">
         <div className="flex items-start">
           <div className="sticky top-20">
             <SectionHeading

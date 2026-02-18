@@ -16,7 +16,7 @@ export default function WhoWeServeComponent() {
 
   return (
     <div ref={sectionRef} className="py-20 sm:pb-72 lg:pb-20 bg-[#FFEED0]">
-      <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto">
+      <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto">
         <SectionHeading
           badge="Who we Serve?"
           title="We are Experts for Every Tax Situation"

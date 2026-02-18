@@ -22,7 +22,7 @@ export default function HeroComponent() {
 
       {/* hero contents */}
       <div>
-        <div className="relative text-white max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto pt-32 pb-48 md:pt-48">
+        <div className="relative text-white max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto pt-32 pb-48 md:pt-48">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-[48px] xl:text-[56px] font-bold leading-tight">

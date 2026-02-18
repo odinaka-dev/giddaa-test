@@ -7,7 +7,7 @@ import { WHYCARDDATA } from "@/helpers/homepage.helpers";
 export default function WhyTrustUsComponent() {
   return (
     <div className="py-20">
-      <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto">
+      <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto">
         <SectionHeading
           badge="  Why Trust Us?"
           title="Work With Nigeria’s Top Tax Experts"

@@ -7,7 +7,7 @@ import { FAQDATA } from "@/helpers/homepage.helpers";
 
 export default function FaqComponent() {
   return (
-    <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto py-20">
+    <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto py-20">
       <SectionHeading
         badge="  FAQs"
         title="Your Questions, Answered."

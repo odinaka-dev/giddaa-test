@@ -12,7 +12,7 @@ export default function TaxCommunityComponent() {
   return (
     <div className="bg-[#FFEED0] py-24">
       <div className="">
-        <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto">
+        <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-300 mx-auto">
           <SectionHeading
             badge="  Tax Community"
             title="A Vibrant Community You Can Count On."

@@ -76,7 +76,7 @@ export default function HeaderComponent() {
   return (
     <>
       <div className="bg-white py-4 fixed w-full z-1000 shadow-sm">
-        <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-[98%] xl:max-w-7xl mx-auto flex justify-between items-center">
+        <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-[98%] xl:max-w-300 mx-auto flex justify-between items-center">
           {/* Logo */}
           <div>
             <Link href={"/"}>

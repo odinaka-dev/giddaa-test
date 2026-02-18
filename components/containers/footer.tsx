@@ -10,7 +10,7 @@ import { FOOTERLISTDATA } from "@/helpers/homepage.helpers";
 export default function FooterComponent() {
   return (
     <div className="bg-[#012B56] text-white py-20 px-4 sm:px-14">
-      <div className="max-w-[90%] sm:max-w-[98%] lg:max-w-[98%] xl:max-w-7xl mx-auto">
+      <div className="max-w-[90%] sm:max-w-[98%] lg:max-w-[98%] xl:max-w-300 mx-auto">
         <div className="py-4">
           <Image
             src={GiddaaImages?.TaxLogo}
