@@ -17,7 +17,12 @@ export default function SubFooterComponent() {
             <p className="text-[#4B4B4B] text-[16px] sm:text-[16x] md:text-[20px] leading-8 my-3">
               Begin your tax journey the right way and stay compliant.
             </p>
-            <ButtonComponent />
+            <ButtonComponent
+              title1="Speak with an Expert"
+              title2="Access Your Tax Needs"
+              className1="bg-[#2C59C3] text-white"
+              className2="border-[#2C59C3] bg-white text-[#2C59C3] text-[#2C59C3]"
+            />
           </div>
           <div className="mt-1">
             <Image

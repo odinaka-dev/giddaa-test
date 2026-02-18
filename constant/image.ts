@@ -5,6 +5,7 @@ import menuIcon from "@/assets/images/menu.svg";
 import TaxLogo from "@/assets/images/Tax-logo.svg";
 import desktopheroBg from "@/assets/images/hero-desktop-bg.svg";
 import desktopheroImage from "@/assets/images/hero-deskto-image.svg";
+import mobileheroImage from "@/assets/images/hero_mobile_img.svg";
 import desktopRibbon from "@/assets/images/Ribbon-2.svg";
 import heroCards from "@/assets/images/hero-cards.svg";
 import tunde from "@/assets/images/tunde.svg";
@@ -37,6 +38,7 @@ interface ImageData {
   menuIcon: StaticImageData;
   desktopheroBg: StaticImageData;
   desktopheroImage: StaticImageData;
+  mobileheroImage: StaticImageData;
   desktopRibbon: StaticImageData;
   heroCards: StaticImageData;
   TaxLogo: StaticImageData;
@@ -65,6 +67,7 @@ export const GiddaaImages: ImageData = {
   menuIcon,
   desktopheroBg,
   desktopheroImage,
+  mobileheroImage,
   desktopRibbon,
   heroCards,
   TaxLogo,

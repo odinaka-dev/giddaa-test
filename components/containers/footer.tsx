@@ -10,7 +10,7 @@ import { FOOTERLISTDATA } from "@/helpers/homepage.helpers";
 export default function FooterComponent() {
   return (
     <div className="bg-[#012B56] text-white py-20 px-4 sm:px-14">
-      <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto">
+      <div className="max-w-[90%] sm:max-w-[98%] lg:max-w-[98%] xl:max-w-7xl mx-auto">
         <div className="py-4">
           <Image
             src={GiddaaImages?.TaxLogo}
@@ -31,7 +31,7 @@ export default function FooterComponent() {
         {/* footer menu lists */}
         <div className="flex flex-wrap gap-12 md:gap-12 lg:gap-24 items-start py-10 sm:pb-24 w-full">
           {FOOTERLISTDATA.map((links, index) => (
-            <div key={index}>
+            <div key={index} className="w-full sm:w-auto">
               <h1 className="capitalize font-bold text-[16px]">
                 {links?.title}
               </h1>

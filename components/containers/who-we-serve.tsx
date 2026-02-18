@@ -6,8 +6,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { SectionHeading } from "./SetionHeader";
-import { Whatsapp } from "iconsax-reactjs";
 import { CARDSTEPSDATA } from "@/helpers/homepage.helpers";
+import ButtonComponent from "./button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +15,7 @@ export default function WhoWeServeComponent() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={sectionRef} className="py-20 bg-[#FFEED0]">
+    <div ref={sectionRef} className="py-20 sm:pb-72 lg:pb-20 bg-[#FFEED0]">
       <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto">
         <SectionHeading
           badge="Who we Serve?"
@@ -71,13 +71,13 @@ export function VerticalScroll() {
       {CARDSTEPSDATA.map((card, index) => (
         <div
           key={index}
-          className={`card-container rounded-[50px] py-4 md:py-8 px-4 md:px-12 grid md:grid-cols-2 items-center w-full mb-4`}
+          className={`card-container rounded-[50px] py-4 md:py-8 px-4 grid lg:grid-cols-2 gap-12 items-center w-full mb-4`}
           style={{
             color: card?.textColor,
             background: card?.color,
           }}
         >
-          <div className="w-full order-1 md:order-2">
+          <div className=" order-1 lg:order-2">
             <Image
               src={card?.image}
               alt="card_image"
@@ -87,23 +87,20 @@ export function VerticalScroll() {
             />
           </div>
 
-          <div className="p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between order-2 md:order-1">
+          <div className="w-full p-4 sm:p-6 md:p-4 lg:p-3 xl:p-10 flex flex-col justify-between order-2 lg:order-1">
             <div>
               <p className="text-[30px] font-bold mb-4">{card?.title}</p>
               <h2 className="italic mb-6">{card?.subDescription}</h2>
-              <p className="text-[18px] leading-8 mb-4 hidden sm:block">
+              <p className="text-[16px] xl:text-[18px] leading-8 mb-4 hidden sm:block">
                 {card?.description}
               </p>
               <div>
-                <div className="font-bold flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-6 w-full">
-                  <button className="text-[#2C59C3] text-[14px] sm:text-[16px] bg-white rounded-xl p-3 sm:p-3 px-6 sm:px-8 cursor-pointer flex gap-2 items-center justify-center whitespace-nowrap">
-                    <Whatsapp size="21" strokeWidth={2} color="#2C59C3" />
-                    <span>Speak with an Expert</span>
-                  </button>
-                  <button className="font-bold border border-white bg-none text-white text-[14px] sm:text-[16px] rounded-xl p-3 sm:p-3 px-6 sm:px-8 cursor-pointer whitespace-nowrap">
-                    Assess Your Tax Needs
-                  </button>
-                </div>
+                <ButtonComponent
+                  title1="Speak with an Expert"
+                  title2="Assess Your Tax Needs"
+                  className1="bg-white text-[#2C59C3] font-bold"
+                  className2="border-white bg-none text-white font-bold"
+                />
               </div>
             </div>
           </div>

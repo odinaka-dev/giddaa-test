@@ -7,7 +7,7 @@ import { CARDATA } from "@/helpers/homepage.helpers";
 
 export default function HeroComponent() {
   return (
-    <div className="relative sm:mb-10 min-h-screen">
+    <div className="relative lg:mb-10 min-h-screen">
       {/* hero bg-image */}
       <Image
         src={GiddaaImages?.desktopheroBg}
@@ -23,9 +23,9 @@ export default function HeroComponent() {
       {/* hero contents */}
       <div>
         <div className="relative text-white max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto pt-32 pb-48 md:pt-48">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-[48px] font-bold leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-[48px] xl:text-[56px] font-bold leading-tight">
                 Avoid <span className="text-[#4FC7FF]">Tax Wahala!</span> Stay
                 Compliant While Paying the Lowest Possible Taxes.
               </h1>
@@ -34,7 +34,12 @@ export default function HeroComponent() {
                 with confidence and get the most value when you file your taxes.
               </p>
               <div className="mt-8">
-                <ButtonComponent />
+                <ButtonComponent
+                  title1="Speak with an Expert"
+                  title2="Access Your Tax Needs"
+                  className1="bg-[#2C59C3] text-white"
+                  className2="border-[#2C59C3] bg-white text-[#2C59C3]"
+                />
               </div>
             </div>
 
@@ -47,7 +52,17 @@ export default function HeroComponent() {
                 quality={90}
                 placeholder="blur"
                 blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZWUiLz48L3N2Zz4="
-                className="z-1 object-cover rounded-4xl"
+                className="hidden md:block z-1 object-cover rounded-4xl"
+              />
+              <Image
+                src={GiddaaImages?.mobileheroImage}
+                alt="Tax filing illustration"
+                fill
+                priority
+                quality={90}
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZWUiLz48L3N2Zz4="
+                className="block md:hidden z-1 object-cover rounded-4xl"
               />
               <Image
                 src={GiddaaImages?.desktopRibbon}
@@ -95,7 +110,7 @@ export default function HeroComponent() {
 
 export function HeroCardComponent() {
   return (
-    <div className="hidden sm:block absolute bottom-0 sm:-bottom-10 right-[25%]">
+    <div className="hidden lg:block absolute bottom-0 sm:-bottom-10 right-[25%]">
       {CARDATA.map((cards, index) => (
         <div
           className={`bg-white p-4 w-170.25 rounded-3xl border border-[#2C59C3] shadow-[#2C59C34D] flex items-center gap-4 ${index === 0 ? "relative z-1 top-2 -right-5 shadow-md" : "shadow-md"}`}

@@ -76,7 +76,7 @@ export default function HeaderComponent() {
   return (
     <>
       <div className="bg-white py-4 fixed w-full z-1000 shadow-sm">
-        <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-250 xl:max-w-7xl mx-auto flex justify-between items-center">
+        <div className="max-w-[90%] sm:max-w-[90%] lg:max-w-[98%] xl:max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
           <div>
             <Link href={"/"}>
@@ -96,7 +96,7 @@ export default function HeaderComponent() {
           </div>
 
           {/* Desktop Navigation - Hidden on mobile */}
-          <div className="hidden lg:flex justify-between gap-8 text-[14px]">
+          <div className="hidden lg:flex justify-between xl:gap-8 text-[14px]">
             {HEADERDTA.slice(0, 2).map((headerlinks, index) => (
               <Link
                 href={headerlinks?.link}
@@ -123,11 +123,16 @@ export default function HeaderComponent() {
           </div>
 
           {/* Desktop Call to action buttons - Hidden on mobile */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-8">
             <Link href={"/"} className="underline font-bold text-[#4B4B4B]">
               <span>Login</span>
             </Link>
-            <ButtonComponent />
+            <ButtonComponent
+              title1="Speak with an Expert"
+              title2="Seek Tax Support"
+              className1="bg-[#2C59C3] text-white"
+              className2="border-[#2C59C3] bg-white text-[#2C59C3]"
+            />
           </div>
 
           {/* Mobile Menu Toggle - Visible only on mobile */}
@@ -193,7 +198,12 @@ export default function HeaderComponent() {
                 animate="open"
                 className="w-full max-w-md"
               >
-                <ButtonComponent />
+                <ButtonComponent
+                  title1="Speak with an Expert"
+                  title2="Seek Tax Support"
+                  className1="bg-[#2C59C3] text-white"
+                  className2="border-[#2C59C3] bg-white text-[#2C59C3]"
+                />
               </motion.div>
               {/* Login Link */}
               <motion.div

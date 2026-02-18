@@ -27,7 +27,12 @@ export default function HowItWorksComponent() {
                   most out of your return."
             />
             <div>
-              <ButtonComponent />
+              <ButtonComponent
+                title1="Speak with an Expert"
+                title2="Access Your Tax Needs"
+                className1="bg-[#2C59C3] text-white"
+                className2="border-[#2C59C3] bg-white text-[#2C59C3]"
+              />
             </div>
           </div>
         </div>

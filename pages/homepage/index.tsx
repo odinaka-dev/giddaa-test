@@ -34,7 +34,7 @@ export function SubHeroComponent() {
   return (
     <div className="">
       <div className="flex items-center justify-center">
-        <div className="bg-[#2C59C3] p-4 rounded-xl hidden sm:block">
+        <div className="bg-[#2C59C3] p-4 rounded-xl hidden lg:block">
           <Image
             src={GiddaaImages?.heroCards}
             alt="Hero_cards"
