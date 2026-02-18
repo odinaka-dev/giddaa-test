@@ -1,4 +1,9 @@
-import { Industry, IndustryData, TaxConfig, TaxResult } from "@/types/tax.types";
+import {
+  Industry,
+  IndustryData,
+  TaxConfig,
+  TaxResult,
+} from "@/types/tax.types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -6,6 +11,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Parses the API response to extract industry data and convert it to our Industry type
 export function parseIndustryResponse(data: IndustryData[]): Industry[] {
   return data.map((item) => ({
     id: item.id,
@@ -21,6 +27,7 @@ export function parseIndustryResponse(data: IndustryData[]): Industry[] {
   }));
 }
 
+// format naira values wwth commas and ₦ symbol
 export function formatNaira(value: number | undefined | null): string {
   if (value === undefined || value === null || isNaN(value)) {
     return "₦0";

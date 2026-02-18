@@ -467,7 +467,7 @@ npx tsc --noEmit
 
 ## Key Functions Reference
 
-### Formatters (`lib/utils/formatters.ts`)
+### Formatters (`lib/utils/`)
 
 ```typescript
 // Format number to Nigerian Naira
@@ -476,20 +476,6 @@ formatNaira(50000); // "₦50,000"
 // Parse amount from string
 parseAmount("₦50,000"); // 50000
 parseAmount("OPTIONAL"); // 0
-```
-
-### Calculations (`lib/utils/calculations.ts`)
-
-```typescript
-// Calculate company tax
-calculateTax({
-  industry: selectedIndustry,
-  madeProfit: true,
-  revenueAboveThreshold: true,
-  yearOfIncorporation: 2016,
-  totalNetProfit: 75000000,
-  config: { TaxRate: 0.3, TaxableAmountThreshold: 25000000 },
-});
 ```
 
 **Last Updated**: February 2026
