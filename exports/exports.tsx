@@ -4,3 +4,4 @@ export { default as Footer } from "@/components/containers/footer";
 
 // PAGES IMPORTS
 export { default as Homepages } from "@/pages/homepage";
+export { default as TaxCalculator } from "@/pages/taxPage";

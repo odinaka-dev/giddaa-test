@@ -88,7 +88,7 @@ export default function HeroComponent() {
         </div>
       </div>
 
-      {/* <HeroCardComponent /> */}
+      <HeroCardComponent />
     </div>
   );
 }
