@@ -4,7 +4,7 @@ A comprehensive tax calculation platform for Personal Income Tax (PAYE) and Comp
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -428,7 +428,7 @@ const baseURL = process.env.NEXT_PUBLIC_URI;
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -465,7 +465,7 @@ npx tsc --noEmit
 
 ---
 
-## 📚 Key Functions Reference
+## Key Functions Reference
 
 ### Formatters (`lib/utils/formatters.ts`)
 
